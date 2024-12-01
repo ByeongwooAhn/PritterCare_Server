@@ -13,9 +13,6 @@ public class Cage {
     private String env_lighting;
     private String env_water_level;
     
-    private String setType;
-	private String setValue;
-    
     //getter and setter
     public String getCage_serial_number() {
 		return cage_serial_number;
@@ -64,20 +61,6 @@ public class Cage {
 	}
 	public void setEnv_water_level(String env_water_level) {
 		this.env_water_level = env_water_level;
-	}
-	
-	// Cage 설정값 업데이트
-	public String getSetType() {
-		return setType;
-	}
-	public void setSetType(String setType) {
-		this.setType = setType;
-	}
-	public String getSetValue() {
-		return setValue;
-	}
-	public void setSetValue(String setValue) {
-		this.setValue = setValue;
 	}
 }
 

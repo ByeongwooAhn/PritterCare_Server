@@ -9,8 +9,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,9 +30,8 @@ public class LoadCageList {
     @Value("${spring.datasource.password}")
     private String dbPassword;
 	
-	@PostMapping("/list")
-	public ResponseEntity<?> LoadCage(
-			@RequestHeader("Authorization") String request) {
+	@GetMapping("/list")
+	public ResponseEntity<?> LoadCage(@RequestHeader("Authorization") String request) {
         
         // 헤더에 토큰 값이 있으면
 		if(request != null) {
