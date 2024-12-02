@@ -45,7 +45,7 @@ public class LogInController {
             pstmt.setString(1, username);  // 첫 번째 파라미터 (ID)
             pstmt.setString(2, password);  // 두 번째 파라미터 (PW)
 
-         // SELECT 쿼리 실행
+            // SELECT 쿼리 실행
             ResultSet resultSet = pstmt.executeQuery();
             
             // 결과 반환
@@ -57,7 +57,7 @@ public class LogInController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body("Database error");
+            return ResponseEntity.status(500).body("Error during database query execution: " + e.getMessage());
         }
     }
 }

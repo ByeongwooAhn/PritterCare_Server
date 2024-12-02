@@ -68,7 +68,8 @@ public class LoadCageList {
 					return ResponseEntity.status(404).body("Not found for the cagelist");
 				}
 			} catch (Exception e) {
-				return ResponseEntity.status(500).body("Server Error");
+				e.printStackTrace();
+				return ResponseEntity.status(500).body("Error during database query execution: " + e.getMessage());
 			}
 		} else {
 			return ResponseEntity.status(400).body("Authorization header is missing or invalid");
