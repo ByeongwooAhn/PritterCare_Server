@@ -16,6 +16,13 @@ public class Reservation {
 	private int time_loop;
 	private String reserve_type;
 	
+	private String origin_reserve_name;
+	private LocalDate origin_reserve_date;
+	private LocalTime origin_reserve_time;
+	private int origin_day_loop;
+	private int origin_time_loop;
+	private String origin_reserve_type;
+	
 	//Getter and Setter
 	public String getCage_serial_number() {
 		return cage_serial_number;
@@ -58,5 +65,42 @@ public class Reservation {
 	}
 	public void setReserve_type(String reserve_type) {
 		this.reserve_type = reserve_type;
+	}
+	
+	public String getOrigin_reserve_name() {
+		return origin_reserve_name;
+	}
+	public void setOrigin_reserve_name(String origin_reserve_name) {
+		this.origin_reserve_name = origin_reserve_name;
+	}
+	public LocalDate getOrigin_reserve_date() {
+		return origin_reserve_date;
+	}
+	public void setOrigin_reserve_date(LocalDate origin_reserve_date) {
+		this.origin_reserve_date = origin_reserve_date;
+	}
+	public LocalTime getOrigin_reserve_time() {
+		return origin_reserve_time;
+	}
+	public void setOrigin_reserve_time(LocalTime origin_reserve_time) {
+		this.origin_reserve_time = origin_reserve_time;
+	}
+	public int getOrigin_day_loop() {
+		return origin_day_loop;
+	}
+	public void setOrigin_day_loop(int origin_day_loop) {
+		this.origin_day_loop = origin_day_loop;
+	}
+	public int getOrigin_time_loop() {
+		return origin_time_loop;
+	}
+	public void setOrigin_time_loop(int origin_time_loop) {
+		this.origin_time_loop = origin_time_loop;
+	}
+	public String getOrigin_reserve_type() {
+		return origin_reserve_type;
+	}
+	public void setOrigin_reserve_type(String origin_reserve_type) {
+		this.origin_reserve_type = origin_reserve_type;
 	}
 }

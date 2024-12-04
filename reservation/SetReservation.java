@@ -46,8 +46,15 @@ public class SetReservation {
     		int day_loop = requestBody.getDay_loop();
     		int time_loop = requestBody.getTime_loop();
     		String reserve_type = requestBody.getReserve_type();
+    		
+    		String origin_reserve_name = requestBody.getOrigin_reserve_name();
+    		LocalDate origin_reserve_date = requestBody.getOrigin_reserve_date();
+    		LocalTime origin_reserve_time = requestBody.getOrigin_reserve_time();
+    		int origin_day_loop = requestBody.getOrigin_day_loop();
+    		int origin_time_loop = requestBody.getOrigin_time_loop();
+    		String origin_reserve_type = requestBody.getOrigin_reserve_type();
 			
-    		String sql = "UPDATE reservation SET reserve_name = ?, reserve_date = ?, reserve_time = ?, day_loop = ?, time_loop = ?, reserve_type = ? FROM reservation WHERE cage_serial_number = (SELECT cage_serial_number FROM cages WHERE username = ? AND cage_serial_number = ?) AND reserve_name = ?;";
+    		String sql = "UPDATE reservation SET reserve_name = ?, reserve_date = ?, reserve_time = ?, day_loop = ?, time_loop = ?, reserve_type = ? WHERE cage_serial_number = (SELECT cage_serial_number FROM cages WHERE username = ? AND cage_serial_number = ?) AND reserve_name = ? AND reserve_date = ? AND reserve_time = ? AND day_loop = ? AND time_loop = ? AND reserve_type = ?;";
 			
 			try(Connection con = DriverManager.getConnection(url, dbUsername, dbPassword);
 					PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -61,7 +68,12 @@ public class SetReservation {
     			pstmt.setString(6, reserve_type);
     			pstmt.setString(7,  username);
     			pstmt.setString(8, cage_serial_number);
-    			pstmt.setString(9, reserve_name);
+    			pstmt.setString(9, origin_reserve_name);
+    			pstmt.setObject(10, origin_reserve_date);
+    			pstmt.setObject(11, origin_reserve_time);
+    			pstmt.setInt(12, origin_day_loop);
+    			pstmt.setInt(13, origin_time_loop);
+    			pstmt.setString(14, origin_reserve_type);
 				
 				int rowsAffected = pstmt.executeUpdate();
 				if(rowsAffected > 0) {
