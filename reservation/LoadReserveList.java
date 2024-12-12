@@ -12,9 +12,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.database.Reservation;
@@ -33,14 +33,13 @@ public class LoadReserveList {
     private String dbPassword;
     
     @GetMapping("/list")
-    public ResponseEntity<?> LoadReserve(@RequestHeader("Authorization") String requestHeader, @RequestBody Reservation requestBody) {
+    public ResponseEntity<?> LoadReserve(@RequestHeader("Authorization") String requestHeader, @RequestParam("cage_serial_number") String cageSerialNumber) {
     	
     	// 헤더에 토큰 값이 있으면
     	if(requestHeader != null) {
     		String token = requestHeader;
     		String username = JwtUtil.extractUsername(token);
-    		String cage_serial_number = requestBody.getCage_serial_number();
-    		
+
     		// MariaDB에서 데이터 조회
     		String sql = "SELECT reserve_name, reserve_date, reserve_time, day_loop, time_loop, reserve_type FROM reservation WHERE cage_serial_number = (SELECT cage_serial_number FROM cages WHERE username = ? AND cage_serial_number = ?);";
     		
@@ -48,7 +47,7 @@ public class LoadReserveList {
     				PreparedStatement pstmt = con.prepareStatement(sql)) {
     			
     			pstmt.setString(1, username);
-    			pstmt.setString(2, cage_serial_number);
+    			pstmt.setString(2, cageSerialNumber);
     			
     			ResultSet resultSet = pstmt.executeQuery();
     			

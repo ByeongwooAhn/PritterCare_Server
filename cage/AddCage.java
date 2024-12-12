@@ -34,19 +34,18 @@ public class AddCage {
 			 String token = requestHeader;
 			 String username = JwtUtil.extractUsername(token);
 			 
-			 String sql = "UPDATE cages SET username = ? WHERE cage_serial_number = ?;";
+			 String sql = "SELECTE cage_serial_number FROM cages WHERE cage_serial_number = ?;";
 			 
 			 try(Connection con = DriverManager.getConnection(url, dbUsername, dbPassword);
 					 PreparedStatement pstmt = con.prepareStatement(sql)) {
 				 
 				 String cage_serial_number = requestBody.getCage_serial_number();
 				 
-				 pstmt.setString(1, username);
-				 pstmt.setString(2, cage_serial_number);
+				 pstmt.setString(1, cage_serial_number);
 				 
 				 int rowsAffected = pstmt.executeUpdate();
 				if(rowsAffected > 0) {
-					return ResponseEntity.ok("Add Username Successful for Cage!");
+					return ResponseEntity.ok("Found Cage Serial Number!");
 				} else {
 					return ResponseEntity.status(404).body("Not Found Cage Serial Number."); // 업데이트 할 데이터 없음
 				}
@@ -68,7 +67,7 @@ public class AddCage {
 			 String username = JwtUtil.extractUsername(token); // 토큰값에서 username 추출
 			 
 			 // MariaDB에 데이터 삽입
-			 String sql = "UPDATE cages SET cage_name = ?, animal_type = ?, env_temperature = ?, env_humidity = ?, env_lighting = ?, env_water_level = ? WHERE cage_serial_number = ? AND username = ?;";
+			 String sql = "UPDATE cages SET username = ?, cage_name = ?, animal_type = ?, env_temperature = ?, env_humidity = ?, env_lighting = ?, env_water_level = ? WHERE cage_serial_number = ?;";
 			 
 			 try(Connection con = DriverManager.getConnection(url, dbUsername, dbPassword);
 					 PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -83,14 +82,14 @@ public class AddCage {
 				 String env_water_level = requestBody.getEnv_water_level();
 				 
 				 // 전달 받은 데이터 바인딩
-				 pstmt.setString(1, cage_name);
-				 pstmt.setString(2, animal_type);
-				 pstmt.setString(3, env_temperature);
-				 pstmt.setString(4, env_humidity);
-				 pstmt.setString(5, env_lighting);
-				 pstmt.setString(6, env_water_level);
-				 pstmt.setString(7, cage_serial_number);
-				 pstmt.setString(8, username);
+				 pstmt.setString(1, username);
+				 pstmt.setString(2, cage_name);
+				 pstmt.setString(3, animal_type);
+				 pstmt.setString(4, env_temperature);
+				 pstmt.setString(5, env_humidity);
+				 pstmt.setString(6, env_lighting);
+				 pstmt.setString(7, env_water_level);
+				 pstmt.setString(8, cage_serial_number);
 				 
 				 // INSERT 쿼리 실행
 				 int rowsAffected = pstmt.executeUpdate();

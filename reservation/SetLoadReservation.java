@@ -12,8 +12,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.database.Reservation;
@@ -31,13 +31,11 @@ public class SetLoadReservation {
     private String dbPassword;
     
     @GetMapping("/rev")
-    public ResponseEntity<?> setReserve(@RequestHeader("Authorization") String requestHeader, @RequestBody Reservation requestBody) {
+    public ResponseEntity<?> setReserve(@RequestHeader("Authorization") String requestHeader, @RequestParam("cage_serial_number") String cageSerialNumber, @RequestParam("reserve_name") String reserveName) {
     	// 헤더에 토큰 값이 있으면
     	if(requestHeader != null) {
     		String token = requestHeader;
     		String username = JwtUtil.extractUsername(token);
-    		String cage_serial_number = requestBody.getCage_serial_number();
-    		String reserve_name = requestBody.getReserve_name();
     		
     		// MariaDB에서 데이터 조회
     		String sql = "SELECT reserve_name, reserve_date, reserve_time, day_loop, time_loop, reserve_type FROM reservation WHERE cage_serial_number = (SELECT cage_serial_number FROM cages WHERE username = ? AND cage_serial_number = ?) AND reserve_name = ?;";
@@ -46,8 +44,8 @@ public class SetLoadReservation {
     				PreparedStatement pstmt = con.prepareStatement(sql)) {
     			
     			pstmt.setString(1, username);
-    			pstmt.setString(2, cage_serial_number);
-    			pstmt.setString(3, reserve_name);
+    			pstmt.setString(2, cageSerialNumber);
+    			pstmt.setString(3, reserveName);
     			
     			ResultSet resultSet = pstmt.executeQuery();
     			
@@ -76,7 +74,7 @@ public class SetLoadReservation {
 				return ResponseEntity.status(500).body("Error during database query execution: " + e.getMessage());
 			}
 		} else {
-			return ResponseEntity.status(400).body("Authorization header is missing or invalid");
+			return ResponseEntity.status(401).body("Authorization header is missing or invalid");
 		}
     }
 }
