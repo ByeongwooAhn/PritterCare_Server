@@ -3,6 +3,7 @@ package com.example.demo.cage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +35,7 @@ public class AddCage {
 			 String token = requestHeader;
 			 String username = JwtUtil.extractUsername(token);
 			 
-			 String sql = "SELECTE cage_serial_number FROM cages WHERE cage_serial_number = ?;";
+			 String sql = "SELECT cage_serial_number FROM cages WHERE cage_serial_number = ?;";
 			 
 			 try(Connection con = DriverManager.getConnection(url, dbUsername, dbPassword);
 					 PreparedStatement pstmt = con.prepareStatement(sql)) {
@@ -43,8 +44,8 @@ public class AddCage {
 				 
 				 pstmt.setString(1, cage_serial_number);
 				 
-				 int rowsAffected = pstmt.executeUpdate();
-				if(rowsAffected > 0) {
+				 ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
 					return ResponseEntity.ok("Found Cage Serial Number!");
 				} else {
 					return ResponseEntity.status(404).body("Not Found Cage Serial Number."); // 업데이트 할 데이터 없음
